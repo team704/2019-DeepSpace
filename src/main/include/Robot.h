@@ -11,10 +11,8 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/AnalogInput.h>
-#if !defined(DISABLE_SOLENOID)
 #include <frc/Solenoid.h>
 #include <frc/DoubleSolenoid.h>
-#endif
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/Joystick.h>
@@ -114,17 +112,7 @@ class Robot : public frc::TimedRobot {
   static constexpr int kJoystickOutputButton = 1;
   static constexpr int kJoystickEjectButton = 3;
   static constexpr int kJoystickStandAxis = 3;
-#if defined(STEAMWORKS)
-  static constexpr int kLtFrontMotorPort = 1;
-  static constexpr int kLtFollowerMotorPort = 2;
-  static constexpr int kRtFrontMotorPort = 4;
-  static constexpr int kRtFollowerMotorPort = 3;
 
-  static constexpr int kLtIntakeMotorPort = 5;
-  static constexpr int kRtIntakeMotorPort = 6;
-
-  static constexpr int kLiftMotorPort = 7;
-#else
   static constexpr int kLtFrontMotorPort = 2;
   static constexpr int kLtFollowerMotorPort = 1;
   static constexpr int kRtFrontMotorPort = 7;
@@ -134,14 +122,11 @@ class Robot : public frc::TimedRobot {
   static constexpr int kRtIntakeMotorPort = 5;
 
   static constexpr int kLiftMotorPort = 3;
-  #endif
 
-  #if !defined(DISABLE_SOLENOID)
   static constexpr int kIntakeExtendSolenoidPort = 2;
   static constexpr int kIntakeRetractSolenoidPort = 3;
   static constexpr int kStandSolenoidPort = 1;
   static constexpr int kReclineSolenoidPort = 0;
-  #endif
 
   static constexpr int kUltrasonicPort = 3;
 
@@ -172,13 +157,11 @@ class Robot : public frc::TimedRobot {
 
   //frc::PIDController m_pidLiftController{kP, kI, kD, m_ultrasonic, m_pidLiftOutput};
 
-  #if !defined(DISABLE_SOLENOID)
   frc::DoubleSolenoid m_intakeSolenoid{kIntakeRetractSolenoidPort,
                                        kIntakeExtendSolenoidPort};
 
   frc::DoubleSolenoid m_standSolenoid{kStandSolenoidPort,
                                       kReclineSolenoidPort};
-  #endif
 
   frc::AnalogInput m_ultrasonic{kUltrasonicPort};
 

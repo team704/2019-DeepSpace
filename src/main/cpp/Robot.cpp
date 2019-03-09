@@ -4,9 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-#define DISABLE_SOLENOID
 #define DISABLE_USBCAMERA
-#define STEAMWORKS
 
 #include "Robot.h"
 
@@ -36,9 +34,8 @@ void Robot::RobotInit() {
   m_ltIntakeMotor.SetInverted(false);
   m_rtIntakeMotor.SetInverted(true);
   m_diffDrive.SetRightSideInverted(true);
-  #if !defined(DISABLE_SOLENOID)
   m_standSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
-  #endif
+  
   #if !defined(DISABLE_USBCAMERA)
   frc::CameraServer::GetInstance()->StartAutomaticCapture();
   #endif
@@ -81,13 +78,10 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  #if !defined(DISABLE_SOLENOID)
   static frc::DoubleSolenoid::Value last_state = frc::DoubleSolenoid::Value::kOff;
-  #endif
   static double last_voltage = 0.0;
   static unsigned int last_distance = 0.0;
   
-  #if !defined(DISABLE_SOLENOID)
   if(last_state != m_standSolenoid.Get())
   {
     switch(m_standSolenoid.Get())
@@ -105,7 +99,6 @@ void Robot::RobotPeriodic() {
         break;
     }
   }
-  #endif
 /*
   if(last_voltage + 0.1 <= m_ultrasonic.GetVoltage() ||
      last_voltage - 0.1 >= m_ultrasonic.GetVoltage())
@@ -131,9 +124,7 @@ void Robot::RobotPeriodic() {
   }
   #endif
 
-  #if !defined(DISABLE_SOLENOID)
   last_state = m_standSolenoid.Get();
-  #endif
 }
 
 void Robot::DisabledInit() {
@@ -167,10 +158,8 @@ void Robot::AutonomousInit() {
 
   DetectController();
 
-  #if !defined(DISABLE_SOLENOID)
   // Automatically stand
   m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-  #endif
 }
 
 void Robot::AutonomousPeriodic() {
@@ -231,11 +220,9 @@ void Robot::TeleopInit() {
   }
   */
 
-  #if !defined(DISABLE_SOLENOID)
   // Automatically stand
   m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
   m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-  #endif
 }
 
 void Robot::TeleopPeriodic() {
@@ -403,7 +390,6 @@ void Robot::HandleJoystick()
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
   }
 
-  #if !defined(DISABLE_SOLENOID)
   // Check if slider is in the up position
   if(m_driverJoystick.GetRawAxis(kJoystickStandAxis) <= 0.25)
   {
@@ -424,7 +410,6 @@ void Robot::HandleJoystick()
     //m_intakeSolenoid.Set(false);
     m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
   }
-  #endif
 }
 
 void Robot::HandleXbox()
@@ -479,7 +464,6 @@ void Robot::HandleXbox()
   // Check if left trigger is held down
   if(m_driverXboxGamepad.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) > 0.25)
   {
-    #if !defined(DISABLE_SOLENOID)
     if(m_driverXboxGamepad.GetAButton())
     {
       //m_intakeSolenoid.Set(true);
@@ -490,7 +474,6 @@ void Robot::HandleXbox()
       //m_intakeSolenoid.Set(false);
       m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
-    #endif
 
     if(m_driverXboxGamepad.GetBButton())
     {
@@ -498,7 +481,6 @@ void Robot::HandleXbox()
       //m_pidLiftController.Enable();
     }
 
-    #if !defined(DISABLE_SOLENOID)
     if(m_driverXboxGamepad.GetStartButton() &&
        m_driverXboxGamepad.GetBackButton())
     {
@@ -512,14 +494,11 @@ void Robot::HandleXbox()
     {
       m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
-    #endif
   }
   else
   {
-    #if !defined(DISABLE_SOLENOID)
     //m_intakeSolenoid.Set(false);
     m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    #endif
   }
 }
 
@@ -575,7 +554,6 @@ void Robot::HandlePlaystation()
   // Check if left trigger is held down
   if(m_driverJoystick.GetRawButton(kPlaystationTriggerButton))
   {
-    #if !defined(DISABLE_SOLENOID)
     if(m_driverJoystick.GetRawButton(kPlaystationEjectButton))
     {
       //m_intakeSolenoid.Set(true);
@@ -586,7 +564,6 @@ void Robot::HandlePlaystation()
       //m_intakeSolenoid.Set(false);
       m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
-    #endif
 
     if(m_driverJoystick.GetRawButton(kPlaystationTestButton))
     {
@@ -594,7 +571,6 @@ void Robot::HandlePlaystation()
       //m_pidLiftController.Enable();
     }
 
-    #if !defined(DISABLE_SOLENOID)
     if(m_driverJoystick.GetRawButton(kPlaystationStandButton) &&
        m_driverJoystick.GetRawButton(kPlaystationReclineButton))
     {
@@ -608,14 +584,11 @@ void Robot::HandlePlaystation()
     {
       m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
-    #endif
   }
   else
   {
-    #if !defined(DISABLE_SOLENOID)
     //m_intakeSolenoid.Set(false);
     m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    #endif
   }
 }
 
