@@ -31,7 +31,7 @@ void Robot::RobotInit() {
   m_rtFollowerMotor.SetInverted(false);
   m_ltFrontMotor.SetSensorPhase(true);
   m_rtFrontMotor.SetSensorPhase(true);
-  m_ltIntakeMotor.SetInverted(false);
+  m_ltIntakeMotor.SetInverted(true);
   m_rtIntakeMotor.SetInverted(true);
   m_diffDrive.SetRightSideInverted(true);
   m_standSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
