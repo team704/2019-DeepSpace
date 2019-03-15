@@ -88,8 +88,8 @@ class Robot : public frc::TimedRobot {
   static constexpr double kValueToInches = 0.125;
   static constexpr double kLiftSpeed = 1.0;
   static constexpr double kLowerSpeed = -1.0;
-  static constexpr double kIntakeSpeed = 1.0;
-  static constexpr double kOutputSpeed = -0.3;
+  static constexpr double kIntakeSpeed = 0.5;
+  static constexpr double kOutputSpeed = -0.5;
 
   static constexpr int kJoystickVelocityAxis = 1;
   static constexpr int kJoystickRotationAxis = 2;
