@@ -34,6 +34,10 @@ void Robot::RobotInit() {
   m_ltIntakeMotor.SetInverted(true);
   m_rtIntakeMotor.SetInverted(true);
   m_diffDrive.SetRightSideInverted(true);
+  m_ltFrontMotor.ConfigOpenloopRamp(kDriveRampTime);
+  m_ltFollowerMotor.ConfigOpenloopRamp(kDriveRampTime);
+  m_rtFrontMotor.ConfigOpenloopRamp(kDriveRampTime);
+  m_rtFollowerMotor.ConfigOpenloopRamp(kDriveRampTime);
   m_standSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
   
   #if !defined(DISABLE_USBCAMERA)
