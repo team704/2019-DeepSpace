@@ -91,26 +91,21 @@ class Robot : public frc::TimedRobot {
   static constexpr double kIntakeSpeed = 0.5;
   static constexpr double kOutputSpeed = -0.5;
 
-  static constexpr int kJoystickVelocityAxis = 1;
-  static constexpr int kJoystickRotationAxis = 2;
-  
-  static constexpr int kGamepadVelocityAxis = 1;
-  static constexpr int kGamepadRotationAxis = 3;
-
   static constexpr int kPlaystationVelocityAxis = 3;
   static constexpr int kPlaystationRotationAxis = 0;
 
   static constexpr int kPlaystationLiftButton = 5;
   static constexpr int kPlaystationLowerButton = 6;
-  static constexpr int kPlaystationTriggerButton = 7;
-  static constexpr int kPlaystationEjectButton = 2;
   static constexpr int kPlaystationStandButton = 10;
   static constexpr int kPlaystationReclineButton = 9;
-  static constexpr int kPlaystationTestButton = 3;
+  static constexpr int kPlaystationIntakeButton = 7;
+  static constexpr int kPlaystationOutputButton = 8;
+
+  static constexpr int kJoystickVelocityAxis = 1;
+  static constexpr int kJoystickRotationAxis = 2;
 
   static constexpr int kJoystickIntakeButton = 2;
   static constexpr int kJoystickOutputButton = 1;
-  static constexpr int kJoystickEjectButton = 3;
   static constexpr int kJoystickStandAxis = 3;
 
   static constexpr int kLtFrontMotorPort = 2;
