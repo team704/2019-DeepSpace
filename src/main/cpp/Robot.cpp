@@ -176,57 +176,12 @@ void Robot::AutonomousPeriodic() {
   HandleDrive();
 }
 
-void Robot::TeleopInit() {
+void Robot::TeleopInit()
+{
   DetectController();
-  /*
-  if(m_driverJoystick.GetType() == frc::GenericHID::HIDType::kHIDJoystick ||
-     m_driverJoystick.GetType() == frc::GenericHID::HIDType::kXInputArcadePad ||
-     m_driverJoystick.GetType() == frc::GenericHID::HIDType::kXInputArcadeStick ||
-     m_driverXboxGamepad.GetType() == frc::GenericHID::HIDType::kHIDGamepad ||
-     m_driverXboxGamepad.GetType() == frc::GenericHID::HIDType::kXInputGamepad)
-  {
-    if(m_driverJoystick.GetType() == frc::GenericHID::HIDType::kHIDJoystick)
-    {
-      if(m_driverJoystick.GetName().find("Dual Action") != std::string::npos)
-      {
-        std::cout << "Found: Playstation Controller" << std::endl;
-        m_joystickType = JoystickType::kPlaystation;
-      }
-      else if(m_driverJoystick.GetName().find("Extreme 3D") != std::string::npos)
-      {
-        std::cout << "Found: Joystick" << std::endl;
-        m_joystickType = JoystickType::kJoystick;
-      }
-      else
-      {
-        std::cout << "Found: Undefined HIDJoystick "
-                  << "[" << m_driverJoystick.GetName() << "]" << std::endl;
-        m_joystickType m_ultrasonic= JoystickType::kUnknown;
-      }
-    }
-    else if(m_driverXboxGamepad.GetType() == frc::GenericHID::HIDType::kXInputGamepad)
-    {
-      std::cout << "Found: X-Box Controller" << std::endl;
-      m_joystickType = JoystickType::kXbox;
-    }
-    else
-    {
-      m_joystickType = JoystickType::kUnknown;
-      std::cout << "Found: Undefined Controller"
-                << "(" << m_driverJoystick.GetType() << ") "
-                << "[" << m_driverJoystick.GetName() << "]" << std::endl;
-    }
-    
-  }
-  else
-  {
-    std::cerr << "No driver controller found!" << std::endl;
-  }
-  */
 
   // Automatically stand
   m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-  m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void Robot::TeleopPeriodic() {
@@ -272,52 +227,6 @@ void Robot::DetectController()
                 << "[" << m_driverJoystick.GetName() << "]"
                 << std::endl;
   }
-
-  /*
-  if(m_driverJoystick.GetType() == frc::GenericHID::HIDType::kHIDJoystick ||
-     m_driverJoystick.GetType() == frc::GenericHID::HIDType::kXInputArcadePad ||
-     m_driverJoystick.GetType() == frc::GenericHID::HIDType::kXInputArcadeStick ||
-     m_driverXboxGamepad.GetType() == frc::GenericHID::HIDType::kHIDGamepad ||
-     m_driverXboxGamepad.GetType() == frc::GenericHID::HIDType::kXInputGamepad)
-  {
-    if(m_driverJoystick.GetType() == frc::GenericHID::HIDType::kHIDJoystick)
-    {
-      if(m_driverJoystick.GetName().find("Dual Action") != std::string::npos)
-      {
-        std::cout << "Found: Playstation Controller" << std::endl;
-        m_joystickType = JoystickType::kPlaystation;
-      }
-      else if(m_driverJoystick.GetName().find("Extreme 3D") != std::string::npos)
-      {
-        std::cout << "Found: Joystick" << std::endl;
-        m_joystickType = JoystickType::kJoystick;
-      }
-      else
-      {
-        std::cout << "Found: Undefined HIDJoystick "
-                  << "[" << m_driverJoystick.GetName() << "]" << std::endl;
-        m_joystickType = JoystickType::kUnknown;
-      }
-    }
-    else if(m_driverXboxGamepad.GetType() == frc::GenericHID::HIDType::kXInputGamepad)
-    {
-      std::cout << "Found: X-Box Controller" << std::endl;
-      m_joystickType = JoystickType::kXbox;
-    }
-    else
-    {
-      m_joystickType = JoystickType::kUnknown;
-      std::cout << "Found: Undefined Controller"
-                << "(" << m_driverJoystick.GetType() << ") "
-                << "[" << m_driverJoystick.GetName() << "]" << std::endl;
-    }
-    
-  }
-  else
-  {
-    std::cerr << "No driver controller found!" << std::endl;
-  }
-  */
 }
 
 void Robot::HandleDrive()
@@ -347,23 +256,17 @@ void Robot::HandleJoystick()
 {
   m_diffDrive.ArcadeDrive(m_driverJoystick.GetY() * -1,
                           m_driverJoystick.GetX());
-    
+
+  // Lift
   if(m_driverJoystick.GetPOV() == 0)
   {
     m_liftMotor.Set(ControlMode::PercentOutput, kLiftSpeed);
-    //m_pidLiftController.Disable();
   }
+  // Lower
   else if(m_driverJoystick.GetPOV() == 180)
   {
     m_liftMotor.Set(ControlMode::PercentOutput, kLowerSpeed);
-    //m_pidLiftController.Disable();
   }
-  /*
-  else if(not m_pidLiftController.IsEnabled())
-  {
-    m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
-  }
-  */
   else
   {
     m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
@@ -403,17 +306,6 @@ void Robot::HandleJoystick()
   {
     m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
   }
-
-  if(m_driverJoystick.GetRawButton(kJoystickEjectButton))
-  {
-    //m_intakeSolenoid.Set(true);
-    m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-  }
-  else
-  {
-    //m_intakeSolenoid.Set(false);
-    m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-  }
 }
 
 void Robot::HandleXbox()
@@ -424,37 +316,41 @@ void Robot::HandleXbox()
   if(m_driverXboxGamepad.GetBumper(frc::GenericHID::JoystickHand::kLeftHand) &&
      m_driverXboxGamepad.GetBumper(frc::GenericHID::JoystickHand::kRightHand))
   {
+    m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
     std::cerr << "Gamepad: Unable to raise and lower lift at the same time!" << std::endl;
   }
+  // Lift
   else if(m_driverXboxGamepad.GetBumper(frc::GenericHID::JoystickHand::kLeftHand))
   {
     m_liftMotor.Set(ControlMode::PercentOutput, kLiftSpeed);
-    //m_pidLiftController.Disable();
   }
+  // Lower
   else if(m_driverXboxGamepad.GetBumper(frc::GenericHID::JoystickHand::kRightHand))
   {
     m_liftMotor.Set(ControlMode::PercentOutput, kLowerSpeed);
-    //m_pidLiftController.Disable();
   }
-  /*
-  else if(not m_pidLiftController.IsEnabled())
-  {
-    m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
-  }
-  */
   else
   {
     m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
   }
 
+  // Intake/Output
+  
+  if(m_driverXboxGamepad.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) >= 0.25 &&
+     m_driverXboxGamepad.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand) >= 0.25)
+  {
+    m_ltIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
+    m_rtIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
+    std::cerr << "Gamepad: Unable to intake and output at the same time!" << std::endl;
+  }
   // Output ball
-  if(m_driverXboxGamepad.GetPOV() == 0)
+  else if(m_driverXboxGamepad.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand) >= 0.25)
   {
     m_ltIntakeMotor.Set(ControlMode::PercentOutput, kOutputSpeed);
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, kOutputSpeed);
   }
   // Intake ball
-  else if(m_driverXboxGamepad.GetPOV() == 180)
+  else if(m_driverXboxGamepad.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) >= 0.25)
   {
     m_ltIntakeMotor.Set(ControlMode::PercentOutput, kIntakeSpeed);
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, kIntakeSpeed);
@@ -464,45 +360,16 @@ void Robot::HandleXbox()
     m_ltIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
   }
-
-  // Check if left trigger is held down
-  if(m_driverXboxGamepad.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) > 0.25)
+  
+  // Stand
+  if(m_driverXboxGamepad.GetPOV() == 0)
   {
-    if(m_driverXboxGamepad.GetAButton())
-    {
-      //m_intakeSolenoid.Set(true);
-      m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-    }
-    else
-    {
-      //m_intakeSolenoid.Set(false);
-      m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
-
-    if(m_driverXboxGamepad.GetBButton())
-    {
-      m_liftPosition = LiftPosition::kLowerHatch;
-      //m_pidLiftController.Enable();
-    }
-
-    if(m_driverXboxGamepad.GetStartButton() &&
-       m_driverXboxGamepad.GetBackButton())
-    {
-      std::cerr << "Gamepad: Unable to stand and recline at the same time!" << std::endl;
-    }
-    else if(m_driverXboxGamepad.GetStartButton())
-    {
-      m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-    }
-    else if(m_driverXboxGamepad.GetBackButton())
-    {
-      m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
+    m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
   }
-  else
+  // Recline
+  else if(m_driverXboxGamepad.GetPOV() == 180)
   {
-    //m_intakeSolenoid.Set(false);
-    m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+    m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
   }
 }
 
@@ -514,37 +381,39 @@ void Robot::HandlePlaystation()
   if(m_driverJoystick.GetRawButton(kPlaystationLiftButton) &&
      m_driverJoystick.GetRawButton(kPlaystationLowerButton))
   {
+    m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
     std::cerr << "Gamepad: Unable to raise and lower lift at the same time!" << std::endl;
   }
+  // Lift
   else if(m_driverJoystick.GetRawButton(kPlaystationLiftButton))
   {
     m_liftMotor.Set(ControlMode::PercentOutput, kLiftSpeed);
-    //m_pidLiftController.Disable();
   }
+  // Lower
   else if(m_driverJoystick.GetRawButton(kPlaystationLowerButton))
   {
     m_liftMotor.Set(ControlMode::PercentOutput, kLowerSpeed);
-    //m_pidLiftController.Disable();
   }
-  /*
-  else if(not m_pidLiftController.IsEnabled())
-  {
-    m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
-  }
-  */
   else
   {
     m_liftMotor.Set(ControlMode::PercentOutput, 0.0);
   }
 
+  if(m_driverJoystick.GetRawButton(kPlaystationIntakeButton) &&
+     m_driverJoystick.GetRawButton(kPlaystationOutputButton))
+  {
+    m_ltIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
+    m_rtIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
+    std::cerr << "Gamepad: Unable to intake and output at the same time!" << std::endl;
+  }
   // Output ball
-  if(m_driverJoystick.GetPOV() == 0)
+  else if(m_driverJoystick.GetRawButton(kPlaystationOutputButton))
   {
     m_ltIntakeMotor.Set(ControlMode::PercentOutput, kOutputSpeed);
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, kOutputSpeed);
   }
   // Intake ball
-  else if(m_driverJoystick.GetPOV() == 180)
+  else if(m_driverJoystick.GetRawButton(kPlaystationIntakeButton))
   {
     m_ltIntakeMotor.Set(ControlMode::PercentOutput, kIntakeSpeed);
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, kIntakeSpeed);
@@ -555,44 +424,15 @@ void Robot::HandlePlaystation()
     m_rtIntakeMotor.Set(ControlMode::PercentOutput, 0.0);
   }
 
-  // Check if left trigger is held down
-  if(m_driverJoystick.GetRawButton(kPlaystationTriggerButton))
+  // Stand
+  if(m_driverJoystick.GetPOV() == 0)
   {
-    if(m_driverJoystick.GetRawButton(kPlaystationEjectButton))
-    {
-      //m_intakeSolenoid.Set(true);
-      m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-    }
-    else
-    {
-      //m_intakeSolenoid.Set(false);
-      m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
-
-    if(m_driverJoystick.GetRawButton(kPlaystationTestButton))
-    {
-      m_liftPosition = LiftPosition::kLowerHatch;
-      //m_pidLiftController.Enable();
-    }
-
-    if(m_driverJoystick.GetRawButton(kPlaystationStandButton) &&
-       m_driverJoystick.GetRawButton(kPlaystationReclineButton))
-    {
-      std::cerr << "Gamepad: Unable to stand and recline at the same time!" << std::endl;
-    }
-    else if(m_driverJoystick.GetRawButton(kPlaystationStandButton))
-    {
-      m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-    }
-    else if(m_driverJoystick.GetRawButton(kPlaystationReclineButton))
-    {
-      m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
+    m_standSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
   }
-  else
+  // Recline
+  else if(m_driverJoystick.GetPOV() == 180)
   {
-    //m_intakeSolenoid.Set(false);
-    m_intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+    m_standSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
   }
 }
 
